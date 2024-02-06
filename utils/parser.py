@@ -1,6 +1,7 @@
 from classes.Challenge import Challenge
 from classes.Warehouse import Warehouse
 from classes.Order import Order
+from classes.Drone import Drone
 
 
 def parse(filename: str) -> Challenge:
@@ -40,7 +41,14 @@ def parse(filename: str) -> Challenge:
 
             orders.append(Order(order_id, location, order_products))
 
+        drones = list()
+        for i in range(nb_drones):
+            drone_id = i
+            location = warehouses[0].location
+            current_load = [0 for i in range(product_types)]
+            drones.append(Drone(drone_id, location, current_load))
+
     challenge = Challenge(grid, nb_drones, max_turns, max_load, product_types, product_weights,
-                          nb_warehouses, warehouses, nb_orders, orders)
+                          nb_warehouses, warehouses, nb_orders, orders, drones)
 
     return challenge

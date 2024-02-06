@@ -8,4 +8,3 @@ class Order:
     def __str__(self):
         return (f"Id: {self.order_id}\nLocation: {self.location}\nOrder products: {self.order_products}"
                 f"Deliver: {self.deliver}")
-
