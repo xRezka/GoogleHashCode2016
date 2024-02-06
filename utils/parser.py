@@ -8,7 +8,10 @@ def parse(filename: str) -> Challenge:
     Read input file data set to extract challenge information.
     """
     with open(filename, 'r') as file:
-        nb_rows, nb_columns, nb_drones, max_turns, max_load = map(int, file.readline().split())
+        first_line = file.readline().split()
+        grid = tuple(map(int, first_line[:2]))
+        nb_drones, max_turns, max_load = map(int, first_line[2:])
+
         product_types = int(file.readline())
         product_weights = list(map(int, file.readline().split()))
         nb_warehouses = int(file.readline())
@@ -37,7 +40,7 @@ def parse(filename: str) -> Challenge:
 
             orders.append(Order(order_id, location, order_products))
 
-    challenge = Challenge(nb_rows, nb_columns, nb_drones, max_turns, max_load, product_types, product_weights,
+    challenge = Challenge(grid, nb_drones, max_turns, max_load, product_types, product_weights,
                           nb_warehouses, warehouses, nb_orders, orders)
 
     return challenge
