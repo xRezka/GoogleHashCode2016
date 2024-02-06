@@ -3,7 +3,8 @@ from classes.Order import Order
 
 class Challenge:
     def __init__(self, nb_rows: int, nb_columns: int, nb_drones: int, max_turns: int,
-                 max_load: int, product_types: int, product_weights: list[int], nb_warehouses: int, warehouses: list[Warehouse], orders: list[Order]):
+                 max_load: int, product_types: int, product_weights: list[int], nb_warehouses: int,
+                 warehouses: list[Warehouse], nb_orders: int, orders: list[Order]):
 
         self.nb_rows = nb_rows
         self.nb_columns = nb_columns
@@ -14,6 +15,7 @@ class Challenge:
         self.product_weights = product_weights
         self.nb_warehouses = nb_warehouses
         self.warehouses = warehouses
+        self.nb_orders = nb_orders
         self.orders = orders
 
 
@@ -22,4 +24,5 @@ class Challenge:
                 f"\nNumber of drones: {self.nb_drones}\nNumber of turns: {self.max_turns}"
                 f"\nMaximum load: {self.max_load}\nNumber of product types: {self.product_types}"
                 f"\nWeight of each product types are: {self.product_weights}\nNumber of warehouses: {self.nb_warehouses}"
-                f"\nList of warehouses: {self.warehouses}\nList of orders: {self.orders}")
+                f"\nList of warehouses: {self.warehouses}\nNumber of orders: {self.nb_orders}"
+                f"\nList of orders: {self.orders}")

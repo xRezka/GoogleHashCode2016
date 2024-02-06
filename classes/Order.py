@@ -5,4 +5,4 @@ class Order:
         self.order_products = order_products
 
     def __str__(self):
-        return (f"Id: {self.id}\nLocation: {self.location}\nWarehouse products: {self.order_products}")
+        return (f"Id: {self.id}\nLocation: {self.location}\nOrder products: {self.order_products}")
