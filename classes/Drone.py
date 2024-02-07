@@ -1,5 +1,7 @@
 from classes.Warehouse import Warehouse
+from classes.Order import Order
 from utils.products import weight
+from utils.distance import distance
 
 
 class Drone:
@@ -8,6 +10,8 @@ class Drone:
         self.drone_id = drone_id
         self.location = location
         self.current_load = current_load
+        self.turns = 0
+        self.available = True
 
     def __str__(self):
         return (f"Id: : {self.drone_id}\nLocation: {self.location}"
@@ -18,12 +22,14 @@ class Drone:
             if warehouse.warehouse_products[product_type] >= quantity:
                 self.current_load[product_type] += quantity
                 warehouse.warehouse_products[product_type] -= quantity
+                self.turns += 1
                 return True
 
             elif (quantity >= warehouse.warehouse_products[product_type]) and (
                     warehouse.warehouse_products[product_type] > 0):
                 self.current_load[product_type] += warehouse.warehouse_products[product_type]
                 warehouse.warehouse_products[product_type] -= warehouse.warehouse_products[product_type]
+                self.turns += 1
 
             else:
                 print('Warehouse doesn\'t have enought products of this type !')
@@ -31,22 +37,43 @@ class Drone:
         else:
             print('Drone cannot load !')
 
-    def deliver(self):
-        pass
+    def deliver(self, order: Order):
+        for i in range(len(self.current_load)):
+            if self.current_load[i] > 0 and order.order_products[i] > 0 and (
+                    self.current_load[i] >= order.order_products[i]):
+
+                self.current_load[i] -= order.order_products[i]
+                order.order_products[i] -= order.order_products[i]
+                self.turns += 1
+
+            else:
+                continue
+
+        if sum(order.order_products) == 0:
+            order.deliver = True
+        return True
 
     def unload(self, warehouse: Warehouse, product_type: int, quantity: int):
         if self.current_load[product_type] >= quantity:
             self.current_load[product_type] -= quantity
             warehouse.warehouse_products[product_type] += quantity
             return True
+
         elif (quantity >= self.current_load[product_type]) and (self.current_load[product_type] > 0):
             self.current_load[product_type] -= self.current_load[product_type]
             warehouse.warehouse_products[product_type] += self.current_load[product_type]
+
         else:
             print('Drone doesn\'t currently have this product')
 
-    def wait(self):
-        pass
+    def wait(self, nb_turns: int):
+        while self.turns <= (self.turns + nb_turns):
+            self.available = False
+            self.turns += 1
+        self.available = True
+        return self.turns
 
-    def fly(self):
-        pass
+    def fly(self, destination: tuple):
+        self.turns += distance(self.location, destination)
+        self.location = destination
+        return self.location, self.turns
