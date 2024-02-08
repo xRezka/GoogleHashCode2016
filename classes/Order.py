@@ -6,5 +6,4 @@ class Order:
         self.deliver = False
 
     def __str__(self):
-        return (f"Id: {self.order_id}\nLocation: {self.location}\nOrder products: {self.order_products}"
-                f"Deliver: {self.deliver}")
+        return f"Order {self.order_id} at {self.location} with {self.order_products} deliver {self.deliver}"

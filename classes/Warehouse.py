@@ -5,5 +5,4 @@ class Warehouse:
         self.warehouse_products = warehouse_products
 
     def __str__(self):
-        return (f"Id: {self.warehouse_id}\nLocation: {self.location}"
-                f"\nWarehouse products: {self.warehouse_products}")
+        return f"Warehouse {self.warehouse_id} at {self.location} with {self.warehouse_products}"
