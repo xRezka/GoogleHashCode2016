@@ -6,7 +6,7 @@ from utils.parser import parse
 
 def load_test():
     file_path = 'C:\\Users\\auffretb\Documents\GoogleHashCode2016\challenges\\a_example.in'
-    challenge = parse(file_path)
+    parse(file_path)
 
 
 def deliver_test():

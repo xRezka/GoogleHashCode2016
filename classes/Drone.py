@@ -17,31 +17,26 @@ class Drone:
         return f"Drone {self.drone_id} at {self.location} with {self.current_load}"
 
     def load(self, warehouse: Warehouse, challenge, product_type: int, quantity: int):
-        if self.location == warehouse.location:
-            drone_weight = weight(self.current_load, challenge.product_weights)
-            if drone_weight <= challenge.max_load:
+        if self.location != warehouse.location:
+            return False
 
-                if (drone_weight + quantity * challenge.product_weights[product_type]) <= challenge.max_load and (
-                        drone_weight + quantity * challenge.product_weights[product_type]) != 0 and (
-                        quantity * challenge.product_weights[product_type]) != 0:
-                    self.current_load[product_type] += quantity
-                    warehouse.warehouse_products[product_type] -= quantity
-                    return True
+        drone_weight = weight(self.current_load, challenge.product_weights)
+        product_weight = challenge.product_weights[product_type]
+        max_possible_quantity = (challenge.max_load - drone_weight) // product_weight
 
-                else:
-                    max_possible_quantity = (challenge.max_load - drone_weight) // challenge.product_weights[
-                        product_type]
-                    if 0 < max_possible_quantity <= warehouse.warehouse_products[product_type]:
+        if max_possible_quantity <= 0:
+            return False
 
-                        self.current_load[product_type] += max_possible_quantity
-                        warehouse.warehouse_products[product_type] -= max_possible_quantity
-                        return True
-                    else:
-                        print("Drone cannot load this product because the product isn't in warehouse !")
-            else:
-                print("The maximum load of the drone has been exceeded.")
-        else:
-            print("Drone cannot load he doesn't have the same location as warehouse !")
+        if quantity <= 0:
+            return False
+
+        if quantity > max_possible_quantity or quantity > warehouse.warehouse_products[product_type]:
+            quantity = min(max_possible_quantity, warehouse.warehouse_products[product_type])
+
+        self.current_load[product_type] += quantity
+        warehouse.warehouse_products[product_type] -= quantity
+        self.turns += 1
+        return True
 
     def deliver(self, order: Order):
         for i in range(len(self.current_load)):
@@ -56,7 +51,7 @@ class Drone:
                 continue
 
         if sum(order.order_products) == 0:
-            order.deliver = True
+            order.is_deliver = True
         return True
 
     def unload(self, warehouse: Warehouse, product_type: int, quantity: int):
