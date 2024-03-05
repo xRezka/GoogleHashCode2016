@@ -55,6 +55,7 @@ def naive(challenge: Challenge):
                         necessary_products[i] -= drone.current_load[i]
 
         for order in challenge.orders:
+            print(order.order_id, sum(order.order_products))
             for drone in challenge.drones:
                 if not order.is_deliver:
 

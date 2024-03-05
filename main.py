@@ -3,7 +3,7 @@ from solutions.naive import naive
 
 
 def main():
-    file_path = 'C:\\Users\\auffretb\Documents\GoogleHashCode2016\challenges\\a_example.in'
+    file_path = 'D:\Projects\GoogleHashCode2016\challenges\\b_busy_day.in'
     challenge = parse(file_path)
     naive(challenge)
 

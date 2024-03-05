@@ -1,6 +1,7 @@
-from math import sqrt, ceil
+from math import ceil, dist
 
 
 def distance(origin: tuple, destination: tuple):
-    dist = ceil(sqrt((origin[0] - destination[0]) ** 2 + (origin[1] - destination[1]) ** 2))
-    return dist
+    return ceil(dist(origin, destination))
+
+
